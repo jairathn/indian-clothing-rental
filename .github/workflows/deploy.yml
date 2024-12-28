@@ -10,14 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Replace environment variables
-        uses: falnyr/replace-env-vars-action@v1
-        env:
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        with:
-          filename: index.html
-
+        run: |
+          sed -i 's|\${SUPABASE_KEY}|${{ secrets.SUPABASE_KEY }}|g' index.html
+          
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
