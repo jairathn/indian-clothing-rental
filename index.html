@@ -43,10 +43,28 @@ const LandingPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real implementation, this would connect to your backend
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
-    setEmail('');
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setShowSuccess(true);
+        setEmail('');
+        setTimeout(() => setShowSuccess(false), 3000);
+      } else {
+        alert(data.message || 'Error submitting email');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error submitting email. Please try again.');
+    }
   };
 
   return (
