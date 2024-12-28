@@ -4,18 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShopZari</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            max-width: 600px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        #waitlistForm {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        #emailInput {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        #emailInput::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #D4AF37;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #C19B2C;
+            transform: translateY(-2px);
+        }
+
+        #message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .success {
+            background-color: rgba(76, 175, 80, 0.9) !important;
+        }
+
+        .error {
+            background-color: rgba(244, 67, 54, 0.9) !important;
+        }
+    </style>
 </head>
 <body>
-    <form id="waitlistForm">
-        <input 
-            type="email" 
-            id="emailInput"
-            placeholder="Enter your email"
-            required
-        >
-        <button type="submit">Join Waitlist</button>
-        <div id="message"></div>
-    </form>
+    <div class="hero">
+        <h1>Designer Indian Wear<br>For Every Celebration</h1>
+        <p>Rent luxury designer pieces at a fraction of the retail price. Join our waitlist for exclusive early access.</p>
+        
+        <form id="waitlistForm">
+            <input 
+                type="email" 
+                id="emailInput"
+                placeholder="Enter your email for exclusive early access"
+                required
+            >
+            <button type="submit">Join the Waitlist</button>
+            <div id="message"></div>
+        </form>
+    </div>
 
     <script>
         document.getElementById('waitlistForm').addEventListener('submit', function(e) {
@@ -23,6 +121,11 @@
             
             const email = document.getElementById('emailInput').value;
             const messageDiv = document.getElementById('message');
+            const submitButton = document.querySelector('button');
+            
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitButton.textContent = 'Joining...';
             
             fetch('https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist', {
                 method: 'POST',
@@ -34,15 +137,23 @@
             })
             .then(response => {
                 if (response.ok) {
-                    messageDiv.textContent = 'Thanks for joining!';
+                    messageDiv.textContent = 'Thanks for joining! We'll notify you when we launch.';
+                    messageDiv.className = 'success';
                     document.getElementById('emailInput').value = '';
                 } else {
-                    messageDiv.textContent = 'Error submitting email.';
+                    messageDiv.textContent = 'Error submitting email. Please try again.';
+                    messageDiv.className = 'error';
                 }
             })
             .catch(error => {
-                messageDiv.textContent = 'Error submitting email.';
+                messageDiv.textContent = 'Error submitting email. Please try again.';
+                messageDiv.className = 'error';
                 console.error('Error:', error);
+            })
+            .finally(() => {
+                // Re-enable button and reset text
+                submitButton.disabled = false;
+                submitButton.textContent = 'Join the Waitlist';
             });
         });
     </script>
