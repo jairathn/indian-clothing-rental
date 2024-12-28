@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Previous head and style sections remain exactly the same -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,7 +138,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    messageDiv.textContent = 'Thanks for joining! We'll notify you when we launch.';
+                    messageDiv.textContent = "Thanks for joining! We will notify you when we launch.";
                     messageDiv.className = 'success';
                     document.getElementById('emailInput').value = '';
                 } else {
