@@ -1,178 +1,213 @@
-import React, { useState } from 'react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-
-const LandingPage = () => {
-  const [email, setEmail] = useState('');
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const collections = [
-    {
-      category: 'Bridal',
-      items: [
-        {
-          name: 'Manish Malhotra Ivory Pearl Lehenga',
-          rental_price: 299,
-          retail_price: 3500,
-          designer: 'Manish Malhotra',
-          occasion: 'Wedding'
-        },
-        {
-          name: 'Gaurav Gupta Crystal Saree',
-          rental_price: 249,
-          retail_price: 2800,
-          designer: 'Gaurav Gupta',
-          occasion: 'Reception'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZari - Designer Indian Wear Rentals</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
-      ]
-    },
-    {
-      category: 'Groom',
-      items: [
-        {
-          name: 'Amit Aggarwal Black Sherwani',
-          rental_price: 199,
-          retail_price: 2200,
-          designer: 'Amit Aggarwal',
-          occasion: 'Wedding'
+
+        body {
+            background-color: #fafafa;
         }
-      ]
-    }
-  ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        setShowSuccess(true);
-        setEmail('');
-        setTimeout(() => setShowSuccess(false), 3000);
-      } else {
-        alert(data.message || 'Error submitting email');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error submitting email. Please try again.');
-    }
-  };
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1604320205543-b901b9e44f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
-      {/* Hero Section */}
-      <div className="relative h-screen">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-center mb-6">
-            Designer Indian Wear
-            <br />
-            <span className="text-amber-400">For Every Celebration</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-center mb-8">
-            Rent luxury designer pieces at a fraction of the retail price
-          </p>
-          
-          {/* Waitlist Signup */}
-          <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-            <Input
-              type="email"
-              placeholder="Enter your email for exclusive early access"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md border-white/20 text-white placeholder:text-white/70"
-              required
-            />
-            <Button 
-              type="submit"
-              className="w-full bg-amber-400 hover:bg-amber-500 text-black font-semibold py-3 rounded-lg transition-colors"
-            >
-              Join the Waitlist
-            </Button>
-          </form>
-          
-          {showSuccess && (
-            <Alert className="mt-4 bg-green-500 text-white">
-              <AlertDescription>
-                Thanks for joining! We'll notify you when we launch.
-              </AlertDescription>
-            </Alert>
-          )}
-        </div>
-      </div>
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
 
-      {/* Featured Collections */}
-      <div className="py-16 px-4 md:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Featured Collections</h2>
-        
-        {collections.map((collection) => (
-          <div key={collection.category} className="mb-16">
-            <h3 className="text-2xl font-semibold mb-8">{collection.category}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {collection.items.map((item) => (
-                <div key={item.name} className="group relative">
-                  <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
-                    {/* Placeholder for actual product image */}
-                    <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
-                  </div>
-                  
-                  <div className="mt-4 space-y-2">
-                    <h4 className="text-lg font-medium">{item.name}</h4>
-                    <p className="text-gray-600">{item.designer}</p>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-xl font-bold">${item.rental_price} rental</p>
-                        <p className="text-sm text-gray-500">Retail: ${item.retail_price}</p>
-                      </div>
-                      <Button 
-                        variant="outline"
-                        className="border-amber-400 text-amber-600 hover:bg-amber-50"
-                      >
-                        Details
-                      </Button>
-                    </div>
-                  </div>
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #eee;
+        }
+
+        .waitlist-form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .waitlist-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .waitlist-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #D4AF37;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .waitlist-form button:hover {
+            background-color: #C19B2C;
+        }
+
+        .collections {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .collections h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .collection-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function App() {
+            const [email, setEmail] = React.useState('');
+            const [showSuccess, setShowSuccess] = React.useState(false);
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                try {
+                    const response = await fetch('/api/subscribe', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email }),
+                    });
+                    
+                    if (response.ok) {
+                        setShowSuccess(true);
+                        setEmail('');
+                        setTimeout(() => setShowSuccess(false), 3000);
+                    } else {
+                        alert('Error submitting email. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error submitting email. Please try again.');
+                }
+            };
+
+            return (
+                <div>
+                    <section className="hero">
+                        <h1>Designer Indian Wear<br/>For Every Celebration</h1>
+                        <p>Rent luxury designer pieces at a fraction of the retail price</p>
+                        
+                        <form onSubmit={handleSubmit} className="waitlist-form">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email for exclusive early access"
+                                required
+                            />
+                            <button type="submit">Join the Waitlist</button>
+                            {showSuccess && (
+                                <div className="success-message">
+                                    Thanks for joining! We'll notify you when we launch.
+                                </div>
+                            )}
+                        </form>
+                    </section>
+
+                    <section className="collections">
+                        <h2>Featured Collections</h2>
+                        <div className="collection-grid">
+                            {collections.map(collection => (
+                                <div key={collection.name} className="collection-card">
+                                    <div style={{ height: 200, backgroundColor: '#eee' }}></div>
+                                    <div style={{ padding: 20 }}>
+                                        <h3>{collection.name}</h3>
+                                        <p>Designer: {collection.designer}</p>
+                                        <p>${collection.rental_price} rental</p>
+                                        <p>Retail: ${collection.retail_price}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
                 </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+            );
+        }
 
-      {/* Trust Indicators */}
-      <div className="bg-gray-50 py-16 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose ShopZari?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="text-4xl mb-4">✨</div>
-              <h3 className="text-xl font-semibold mb-2">Designer Authentic</h3>
-              <p className="text-gray-600">Verified authentic pieces from top Indian designers</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-4">💫</div>
-              <h3 className="text-xl font-semibold mb-2">Premium Quality</h3>
-              <p className="text-gray-600">Professionally cleaned and maintained</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-4">🌟</div>
-              <h3 className="text-xl font-semibold mb-2">Stress-free Rentals</h3>
-              <p className="text-gray-600">Easy booking, delivery, and returns</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+        const collections = [
+            {
+                name: "Manish Malhotra Ivory Pearl Lehenga",
+                rental_price: 299,
+                retail_price: 3500,
+                designer: "Manish Malhotra"
+            },
+            {
+                name: "Gaurav Gupta Crystal Saree",
+                rental_price: 249,
+                retail_price: 2800,
+                designer: "Gaurav Gupta"
+            },
+            {
+                name: "Amit Aggarwal Black Sherwani",
+                rental_price: 199,
+                retail_price: 2200,
+                designer: "Amit Aggarwal"
+            }
+        ];
 
-export default LandingPage;
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
