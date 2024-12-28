@@ -1,211 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Clothing Rental</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+import React, { useState } from 'react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+
+const LandingPage = () => {
+  const [email, setEmail] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const collections = [
+    {
+      category: 'Bridal',
+      items: [
+        {
+          name: 'Manish Malhotra Ivory Pearl Lehenga',
+          rental_price: 299,
+          retail_price: 3500,
+          designer: 'Manish Malhotra',
+          occasion: 'Wedding'
+        },
+        {
+          name: 'Gaurav Gupta Crystal Saree',
+          rental_price: 249,
+          retail_price: 2800,
+          designer: 'Gaurav Gupta',
+          occasion: 'Reception'
         }
-
-        body {
-            line-height: 1.6;
+      ]
+    },
+    {
+      category: 'Groom',
+      items: [
+        {
+          name: 'Amit Aggarwal Black Sherwani',
+          rental_price: 199,
+          retail_price: 2200,
+          designer: 'Amit Aggarwal',
+          occasion: 'Wedding'
         }
+      ]
+    }
+  ];
 
-        .navbar {
-            background-color: #fff;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // In a real implementation, this would connect to your backend
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+    setEmail('');
+  };
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .btn {
-            background-color: #D4AF37;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .hero {
-            display: flex;
-            padding: 4rem 5%;
-            background-color: #f8f8f8;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .hero-text {
-            flex: 1;
-        }
-
-        .hero-text h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .hero-text p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            color: #666;
-        }
-
-        .hero-image {
-            flex: 1;
-            height: 400px;
-            background-color: #ddd;
-            border-radius: 8px;
-        }
-
-        .categories {
-            padding: 4rem 5%;
-        }
-
-        .categories h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2rem;
-            color: #333;
-        }
-
-        .category-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #eee;
-        }
-
-        .card h3 {
-            padding: 1rem;
-            color: #333;
-        }
-
-        .card p {
-            padding: 0 1rem 1rem;
-            color: #666;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero-image {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">ShopZari</div>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#categories">Categories</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><button class="btn">Login</button></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Discover Luxury Indian Wear for Every Occasion</h1>
-            <p>Rent designer outfits for weddings, parties, and festivals at affordable rates.</p>
-            <button class="btn hero-btn">Explore Now</button>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+      {/* Hero Section */}
+      <div className="relative h-screen">
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
+          <h1 className="text-5xl md:text-7xl font-bold text-center mb-6">
+            Designer Indian Wear
+            <br />
+            <span className="text-amber-400">For Every Celebration</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-center mb-8">
+            Rent luxury designer pieces at a fraction of the retail price
+          </p>
+          
+          {/* Waitlist Signup */}
+          <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
+            <Input
+              type="email"
+              placeholder="Enter your email for exclusive early access"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md border-white/20 text-white placeholder:text-white/70"
+              required
+            />
+            <Button 
+              type="submit"
+              className="w-full bg-amber-400 hover:bg-amber-500 text-black font-semibold py-3 rounded-lg transition-colors"
+            >
+              Join the Waitlist
+            </Button>
+          </form>
+          
+          {showSuccess && (
+            <Alert className="mt-4 bg-green-500 text-white">
+              <AlertDescription>
+                Thanks for joining! We'll notify you when we launch.
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
-        <div class="hero-image"></div>
-    </section>
+      </div>
 
-    <section id="categories" class="categories">
-        <h2>Our Collections</h2>
-        <div class="category-cards">
-            <div class="card">
-                <div style="height: 200px; background-color: #eee;"></div>
-                <h3>Lehengas</h3>
-                <p>Perfect for weddings and receptions.</p>
+      {/* Featured Collections */}
+      <div className="py-16 px-4 md:px-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Featured Collections</h2>
+        
+        {collections.map((collection) => (
+          <div key={collection.category} className="mb-16">
+            <h3 className="text-2xl font-semibold mb-8">{collection.category}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {collection.items.map((item) => (
+                <div key={item.name} className="group relative">
+                  <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
+                    {/* Placeholder for actual product image */}
+                    <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
+                  </div>
+                  
+                  <div className="mt-4 space-y-2">
+                    <h4 className="text-lg font-medium">{item.name}</h4>
+                    <p className="text-gray-600">{item.designer}</p>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-xl font-bold">${item.rental_price} rental</p>
+                        <p className="text-sm text-gray-500">Retail: ${item.retail_price}</p>
+                      </div>
+                      <Button 
+                        variant="outline"
+                        className="border-amber-400 text-amber-600 hover:bg-amber-50"
+                      >
+                        Details
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div class="card">
-                <div style="height: 200px; background-color: #eee;"></div>
-                <h3>Sarees</h3>
-                <p>Elegant and timeless pieces.</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Trust Indicators */}
+      <div className="bg-gray-50 py-16 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose ShopZari?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-4xl mb-4">✨</div>
+              <h3 className="text-xl font-semibold mb-2">Designer Authentic</h3>
+              <p className="text-gray-600">Verified authentic pieces from top Indian designers</p>
             </div>
-            <div class="card">
-                <div style="height: 200px; background-color: #eee;"></div>
-                <h3>Sherwanis</h3>
-                <p>Traditional wear for grooms and men.</p>
+            <div className="text-center">
+              <div className="text-4xl mb-4">💫</div>
+              <h3 className="text-xl font-semibold mb-2">Premium Quality</h3>
+              <p className="text-gray-600">Professionally cleaned and maintained</p>
             </div>
-            <div class="card">
-                <div style="height: 200px; background-color: #eee;"></div>
-                <h3>Jewelry</h3>
-                <p>Complete your look with stunning accessories.</p>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🌟</div>
+              <h3 className="text-xl font-semibold mb-2">Stress-free Rentals</h3>
+              <p className="text-gray-600">Easy booking, delivery, and returns</p>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  );
+};
 
-    <footer>
-        <p>&copy; 2024 ShopZari. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+export default LandingPage;
