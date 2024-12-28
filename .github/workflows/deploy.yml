@@ -1,20 +1,15 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
       - main
-
+permissions:
+  contents: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Replace environment variables
-        run: |
-          sed -i 's|\${SUPABASE_KEY}|${{ secrets.SUPABASE_KEY }}|g' index.html
-          
+      - uses: actions/checkout@v3
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
