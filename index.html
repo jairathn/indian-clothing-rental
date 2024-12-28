@@ -3,82 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopZari</title>
+    <title>ShopZari - Luxury Indian Designer Wear Rentals</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: "Cormorant Garamond", -apple-system, BlinkMacSystemFont, serif;
         }
 
         body {
-            background-color: #1a1a1a;
             line-height: 1.6;
             color: white;
+            background-color: #1a1a1a;
+            overflow-x: hidden;
         }
 
         .hero {
             min-height: 100vh;
-            padding: 100px 20px;
-            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1610630372448-9d4c4247e80c?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
         }
 
-        .hero h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(212,175,55,0.1) 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
             max-width: 800px;
         }
 
-        .hero p {
-            font-size: 1.4em;
-            margin-bottom: 30px;
-            max-width: 600px;
-            color: rgba(255, 255, 255, 0.9);
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .tagline {
+            font-size: 1.8em;
+            margin-bottom: 40px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .benefits {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .benefit {
+            text-align: center;
+            flex: 0 1 250px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .benefit h3 {
+            color: #D4AF37;
+            margin-bottom: 10px;
+            font-size: 1.2em;
         }
 
         #waitlistForm {
             max-width: 500px;
             width: 100%;
-            padding: 20px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .form-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .exclusive-offer {
+            background: linear-gradient(45deg, #D4AF37, #FFD700);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 600;
         }
 
         #emailInput {
             width: 100%;
             padding: 15px;
             margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 8px;
             font-size: 16px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             color: white;
+            transition: all 0.3s ease;
+        }
+
+        #emailInput:focus {
+            outline: none;
+            border-color: #D4AF37;
+            box-shadow: 0 0 10px rgba(212,175,55,0.3);
         }
 
         #emailInput::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
         }
 
         button {
             width: 100%;
             padding: 15px;
-            background-color: #D4AF37;
-            color: white;
+            background: linear-gradient(45deg, #D4AF37, #FFD700);
+            color: black;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         button:hover {
-            background-color: #C19B2C;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212,175,55,0.3);
+        }
+
+        .perks {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.8);
+            text-align: left;
+        }
+
+        .perks ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .perks li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .perks li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #D4AF37;
         }
 
         #message {
@@ -86,71 +187,77 @@
             padding: 10px;
             border-radius: 8px;
             display: none;
+            text-align: center;
         }
 
         .success {
-            background-color: rgba(76, 175, 80, 0.9) !important;
-            color: white;
+            background-color: rgba(76, 175, 80, 0.9);
         }
 
         .error {
-            background-color: rgba(244, 67, 54, 0.9) !important;
-            color: white;
-        }
-
-        .collections {
-            padding: 80px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .collection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 20px 0;
-        }
-
-        .collection-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .collection-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-content {
-            padding: 20px;
+            background-color: rgba(244, 67, 54, 0.9);
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
+            h1 {
                 font-size: 2.5em;
             }
-            .hero p {
-                font-size: 1.2em;
+            .tagline {
+                font-size: 1.4em;
+            }
+            .benefits {
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="hero">
-        <h1>Designer Indian Wear<br>For Every Celebration</h1>
-        <p>Rent luxury designer pieces at a fraction of the retail price. Join our waitlist for exclusive early access.</p>
-        
-        <form id="waitlistForm">
-            <input 
-                type="email" 
-                id="emailInput"
-                placeholder="Enter your email for exclusive early access"
-                required
-            >
-            <button type="submit">Join the Waitlist</button>
-            <div id="message"></div>
-        </form>
+        <div class="content">
+            <h1>Luxury Designer Wear<br>For Your Special Moments</h1>
+            <p class="tagline">Experience the magnificence of designer collections at a fraction of retail prices</p>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <h3>Early Access</h3>
+                    <p>Be the first to browse our curated collection</p>
+                </div>
+                <div class="benefit">
+                    <h3>20% Off</h3>
+                    <p>Exclusive discount for waitlist members</p>
+                </div>
+                <div class="benefit">
+                    <h3>Priority Booking</h3>
+                    <p>Secure your pieces before anyone else</p>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <span class="exclusive-offer">✨ Founding Member Special: First rental 20% off ✨</span>
+                
+                <form id="waitlistForm">
+                    <input 
+                        type="email" 
+                        id="emailInput"
+                        placeholder="Enter your email for exclusive early access"
+                        required
+                    >
+                    <button type="submit">Join the Waitlist</button>
+                    <div id="message"></div>
+                    
+                    <div class="perks">
+                        <div>Join our exclusive waitlist and receive:</div>
+                        <ul>
+                            <li>20% off your first rental</li>
+                            <li>Early access to designer collections</li>
+                            <li>Complimentary styling consultation</li>
+                            <li>Priority booking for wedding season</li>
+                            <li>Special pricing for bulk rentals</li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -175,7 +282,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    messageDiv.textContent = "Thanks for joining our waitlist. We will notify you at launch.";
+                    messageDiv.textContent = "Thanks for joining! Your exclusive 20% discount code will be sent to your email.";
                     messageDiv.className = "success";
                     document.getElementById("emailInput").value = "";
                 } else {
