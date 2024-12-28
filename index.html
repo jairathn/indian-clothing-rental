@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Previous head and style sections remain exactly the same -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,44 +116,42 @@
     </div>
 
     <script>
-        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+        document.getElementById("waitlistForm").addEventListener("submit", function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('emailInput').value;
-            const messageDiv = document.getElementById('message');
-            const submitButton = document.querySelector('button');
+            const email = document.getElementById("emailInput").value;
+            const messageDiv = document.getElementById("message");
+            const submitButton = document.querySelector("button");
             
-            // Disable button and show loading state
             submitButton.disabled = true;
-            submitButton.textContent = 'Joining...';
+            submitButton.textContent = "Joining...";
             
-            fetch('https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist', {
-                method: 'POST',
+            fetch("https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b3N6Y2tmcnlxdWZkY3J4emVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUzOTc4NTMsImV4cCI6MjA1MDk3Mzg1M30.OSIRZP_0rkFTTrZnqAZ9lDGcvJhBONlHVyrzHSMeT_4'
+                    "Content-Type": "application/json",
+                    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b3N6Y2tmcnlxdWZkY3J4emVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUzOTc4NTMsImV4cCI6MjA1MDk3Mzg1M30.OSIRZP_0rkFTTrZnqAZ9lDGcvJhBONlHVyrzHSMeT_4"
                 },
                 body: JSON.stringify({ email })
             })
             .then(response => {
                 if (response.ok) {
-                    messageDiv.textContent = "Thanks for joining! We will notify you when we launch.";
-                    messageDiv.className = 'success';
-                    document.getElementById('emailInput').value = '';
+                    messageDiv.textContent = "Thanks for joining our waitlist. We will notify you at launch.";
+                    messageDiv.className = "success";
+                    document.getElementById("emailInput").value = "";
                 } else {
-                    messageDiv.textContent = 'Error submitting email. Please try again.';
-                    messageDiv.className = 'error';
+                    messageDiv.textContent = "Error submitting email. Please try again.";
+                    messageDiv.className = "error";
                 }
             })
             .catch(error => {
-                messageDiv.textContent = 'Error submitting email. Please try again.';
-                messageDiv.className = 'error';
-                console.error('Error:', error);
+                messageDiv.textContent = "Error submitting email. Please try again.";
+                messageDiv.className = "error";
+                console.error("Error:", error);
             })
             .finally(() => {
-                // Re-enable button and reset text
                 submitButton.disabled = false;
-                submitButton.textContent = 'Join the Waitlist';
+                submitButton.textContent = "Join the Waitlist";
             });
         });
     </script>
