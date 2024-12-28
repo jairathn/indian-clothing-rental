@@ -205,34 +205,36 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'apikey': '${SUPABASE_KEY}',
+                        'apikey': '${{ secrets.SUPABASE_KEY }}',
                         'Prefer': 'return=minimal'
                     },
                     body: JSON.stringify({ email })
                 });
 
+                console.log('Response status:', response.status); // Debug line
+                
+                const responseText = await response.text();
+                console.log('Response text:', responseText); // Debug line
+
                 if (response.ok) {
                     messageDiv.textContent = 'Thanks for joining! We'll notify you when we launch.';
                     messageDiv.className = 'message success';
+                    messageDiv.style.display = 'block';
                     document.getElementById('emailInput').value = '';
                 } else {
-                    const error = await response.json();
-                    if (error.code === '23505') {
-                        messageDiv.textContent = 'This email is already on our waitlist!';
-                    } else {
-                        messageDiv.textContent = 'Something went wrong. Please try again.';
-                    }
+                    messageDiv.textContent = 'Error submitting email. Please try again. Status: ' + response.status;
                     messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
                 }
             } catch (error) {
-                messageDiv.textContent = 'Something went wrong. Please try again.';
+                console.error('Error:', error); // Debug line
+                messageDiv.textContent = 'Error: ' + error.message;
                 messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Join the Waitlist';
             }
-
-            // Show the message and reset button
-            messageDiv.style.display = 'block';
-            submitButton.disabled = false;
-            submitButton.textContent = 'Join the Waitlist';
         });
     </script>
 </body>
