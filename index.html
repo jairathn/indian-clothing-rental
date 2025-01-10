@@ -263,35 +263,6 @@
     </section>
 
     <script>
-    const sendWelcomeEmail = async (userEmail) => {
-        const SENDGRID_API_KEY = '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';  // Replace with your actual SendGrid API key
-        
-        try {
-            const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${SENDGRID_API_KEY}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    personalizations: [{
-                        to: [{ email: userEmail }]
-                    }],
-                    from: { email: 'info@shop-zari.com' },  // Replace with your verified sender
-                    template_id: 'd-ec8285ff5209469ba95239e77c18eb4f',  // Replace with your SendGrid template ID
-                    dynamic_template_data: {
-                        discount_code: 'FOUNDING30'
-                    }
-                })
-            });
-            
-            return response.ok;
-        } catch (error) {
-            console.error('Error sending welcome email:', error);
-            return false;
-        }
-    };
-
     document.querySelector('form').addEventListener('submit', async function(e) {
         e.preventDefault();
         
@@ -304,8 +275,7 @@
         messageDiv.style.display = 'none';
         
         try {
-            // First, add to Supabase waitlist
-            const supabaseResponse = await fetch('https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist', {
+            const response = await fetch('https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -314,20 +284,12 @@
                 body: JSON.stringify({ email })
             });
 
-            if (supabaseResponse.ok) {
-                // Then send welcome email
-                const emailSent = await sendWelcomeEmail(email);
-                
-                if (emailSent) {
-                    messageDiv.textContent = "Success! Check your email for your 30% discount code.";
-                    messageDiv.className = "message success";
-                    document.querySelector('input[type="email"]').value = "";
-                } else {
-                    messageDiv.textContent = "Joined waitlist but couldn't send email. We'll contact you soon!";
-                    messageDiv.className = "message success";
-                }
+            if (response.ok) {
+                messageDiv.textContent = "Success! Check your email for your 30% discount code.";
+                messageDiv.className = "message success";
+                document.querySelector('input[type="email"]').value = "";
             } else {
-                throw new Error('Waitlist submission failed');
+                throw new Error('Submission failed');
             }
         } catch (error) {
             messageDiv.textContent = "Error submitting email. Please try again.";
