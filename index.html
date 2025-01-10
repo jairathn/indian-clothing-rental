@@ -263,43 +263,81 @@
     </section>
 
     <script>
-        document.querySelector('form').addEventListener('submit', async function(e) {
-            e.preventDefault();
+    const sendWelcomeEmail = async (userEmail) => {
+        const SENDGRID_API_KEY = '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';  // Replace with your actual SendGrid API key
+        
+        try {
+            const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${SENDGRID_API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    personalizations: [{
+                        to: [{ email: userEmail }]
+                    }],
+                    from: { email: 'info@shop-zari.com' },  // Replace with your verified sender
+                    template_id: 'd-ec8285ff5209469ba95239e77c18eb4f',  // Replace with your SendGrid template ID
+                    dynamic_template_data: {
+                        discount_code: 'FOUNDING30'
+                    }
+                })
+            });
             
-            const email = document.querySelector('input[type="email"]').value;
-            const messageDiv = document.querySelector('.message');
-            const submitButton = document.querySelector('button');
-            
-            submitButton.disabled = true;
-            submitButton.textContent = 'Joining...';
-            messageDiv.style.display = 'none';
-            
-            try {
-                const response = await fetch('https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b3N6Y2tmcnlxdWZkY3J4emVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUzOTc4NTMsImV4cCI6MjA1MDk3Mzg1M30.OSIRZP_0rkFTTrZnqAZ9lDGcvJhBONlHVyrzHSMeT_4'
-                    },
-                    body: JSON.stringify({ email })
-                });
+            return response.ok;
+        } catch (error) {
+            console.error('Error sending welcome email:', error);
+            return false;
+        }
+    };
 
-                if (response.ok) {
-                    messageDiv.textContent = "Success! Your 30% discount code will be emailed to you.";
+    document.querySelector('form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.querySelector('input[type="email"]').value;
+        const messageDiv = document.querySelector('.message');
+        const submitButton = document.querySelector('button');
+        
+        submitButton.disabled = true;
+        submitButton.textContent = 'Joining...';
+        messageDiv.style.display = 'none';
+        
+        try {
+            // First, add to Supabase waitlist
+            const supabaseResponse = await fetch('https://ttoszckfryqufdcrxzej.supabase.co/rest/v1/waitlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b3N6Y2tmcnlxdWZkY3J4emVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUzOTc4NTMsImV4cCI6MjA1MDk3Mzg1M30.OSIRZP_0rkFTTrZnqAZ9lDGcvJhBONlHVyrzHSMeT_4'
+                },
+                body: JSON.stringify({ email })
+            });
+
+            if (supabaseResponse.ok) {
+                // Then send welcome email
+                const emailSent = await sendWelcomeEmail(email);
+                
+                if (emailSent) {
+                    messageDiv.textContent = "Success! Check your email for your 30% discount code.";
                     messageDiv.className = "message success";
                     document.querySelector('input[type="email"]').value = "";
                 } else {
-                    throw new Error('Submission failed');
+                    messageDiv.textContent = "Joined waitlist but couldn't send email. We'll contact you soon!";
+                    messageDiv.className = "message success";
                 }
-            } catch (error) {
-                messageDiv.textContent = "Error submitting email. Please try again.";
-                messageDiv.className = "message error";
-            } finally {
-                messageDiv.style.display = 'block';
-                submitButton.disabled = false;
-                submitButton.textContent = 'Join Waitlist & Get 30% Off';
+            } else {
+                throw new Error('Waitlist submission failed');
             }
-        });
-    </script>
+        } catch (error) {
+            messageDiv.textContent = "Error submitting email. Please try again.";
+            messageDiv.className = "message error";
+        } finally {
+            messageDiv.style.display = 'block';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Join Waitlist & Get 30% Off';
+        }
+    });
+</script>
 </body>
 </html>
