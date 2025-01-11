@@ -4,22 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShopZari - Luxury Indian Designer Rentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             line-height: 1.6;
             background: #fff;
+            font-family: 'Montserrat', sans-serif;
+            color: #2C3E50;
+        }
+
+        h1, h2, h3, .designer-name {
+            font-family: 'Playfair Display', serif;
         }
 
         .hero {
             min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1610630372448-9d4c4247e80c?auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1610630372448-9d4c4247e80c?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             color: white;
@@ -32,80 +38,108 @@
         }
 
         .hero h1 {
-            font-size: 3.5em;
+            font-size: 4em;
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
         }
 
         .founding-member {
-            background: linear-gradient(45deg, #FFD700, #D4AF37);
-            color: black;
-            padding: 12px 24px;
+            background: linear-gradient(45deg, #E5B80B, #FFD700);
+            color: #1A1A1A;
+            padding: 12px 28px;
             border-radius: 50px;
             font-weight: 600;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             display: inline-block;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .waitlist-form {
             max-width: 500px;
             width: 100%;
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
-            border-radius: 15px;
+            background: rgba(255,255,255,0.15);
+            padding: 35px;
+            border-radius: 20px;
             backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         input {
             width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
             background: rgba(255,255,255,0.2);
             color: white;
             font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #E5B80B;
+            background: rgba(255,255,255,0.25);
         }
 
         input::placeholder {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.9);
         }
 
         button {
             width: 100%;
-            padding: 15px;
-            background: #D4AF37;
-            color: white;
+            padding: 16px;
+            background: linear-gradient(45deg, #E5B80B, #FFD700);
+            color: #1A1A1A;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             cursor: pointer;
             font-weight: 600;
+            transition: transform 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
         }
 
         .collections {
-            padding: 80px 20px;
-            background: white;
+            padding: 100px 20px;
+            background: #FDFBF7;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 60px;
+            color: #2C3E50;
         }
 
         .collection-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .collection-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
 
         .collection-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
         }
 
         .card-image {
@@ -119,70 +153,79 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: #D4AF37;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: #E5B80B;
+            color: #1A1A1A;
+            padding: 8px 20px;
+            border-radius: 25px;
             font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
         .savings-badge {
             position: absolute;
             top: 20px;
             left: 20px;
-            background: #e74c3c;
+            background: #E74C3C;
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 25px;
             font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
         .card-content {
-            padding: 20px;
+            padding: 25px;
         }
 
         .designer-name {
-            color: #666;
-            margin-bottom: 5px;
+            color: #E5B80B;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .card-content h3 {
+            color: #2C3E50;
+            font-size: 1.4em;
+            margin-bottom: 15px;
         }
 
         .price-tag {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .rental-price {
-            font-size: 1.4em;
+            font-size: 1.6em;
             font-weight: bold;
-            color: #D4AF37;
+            color: #E5B80B;
         }
 
         .retail-price {
-            color: #999;
+            color: #95A5A6;
             text-decoration: line-through;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 50px;
+            font-size: 1.1em;
         }
 
         .message {
             margin-top: 15px;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 12px;
             display: none;
+            font-weight: 500;
         }
 
-        .success { background: rgba(76, 175, 80, 0.9); color: white; }
-        .error { background: rgba(244, 67, 54, 0.9); color: white; }
+        .success { background: rgba(46, 204, 113, 0.9); color: white; }
+        .error { background: rgba(231, 76, 60, 0.9); color: white; }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5em; }
+            .hero h1 { font-size: 2.8em; }
             .collection-grid { grid-template-columns: 1fr; }
+            .waitlist-form { padding: 25px; }
         }
     </style>
 </head>
